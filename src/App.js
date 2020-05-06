@@ -35,29 +35,38 @@ export default function App() {
   const [googleFont, setGoogleFont] = useState("");
   const [customScript, setCustomScript] = useState("");
   const [optional, setOptional] = useState(false);
+  const [copied, setCopied] = useState(false);
   const handleMyDomain = e => {
     setMyDomain(e.target.value);
+    setCopied(false);
   };
   const handleNotionUrl = e => {
     setNotionUrl(e.target.value);
+    setCopied(false);
   };
   const handlePageTitle = e => {
     setPageTitle(e.target.value);
+    setCopied(false);
   };
   const handlePageDescription = e => {
     setPageDescription(e.target.value);
+    setCopied(false);
   };
   const handleGoogleFont = e => {
     setGoogleFont(e.target.value);
+    setCopied(false);
   };
   const handleCustomScript = e => {
     setCustomScript(e.target.value);
+    setCopied(false);
   };
   const addSlug = () => {
     setSlugs([...slugs, ["", ""]]);
+    setCopied(false);
   };
   const deleteSlug = index => {
     setSlugs([...slugs.slice(0, index), ...slugs.slice(index + 1)]);
+    setCopied(false);
   };
   const handleCustomURL = (value, index) => {
     setSlugs([
@@ -65,6 +74,7 @@ export default function App() {
       [value, slugs[index][1]],
       ...slugs.slice(index + 1)
     ]);
+    setCopied(false);
   };
   const handleNotionPageURL = (value, index) => {
     setSlugs([
@@ -72,23 +82,24 @@ export default function App() {
       [slugs[index][0], value],
       ...slugs.slice(index + 1)
     ]);
+    setCopied(false);
   };
   const handleOptional = () => {
     setOptional(!optional);
   };
   const domain = myDomain || DEFAULT_DOMAIN;
+  const url = notionUrl || DEFAULT_NOTION_URL;
   const myDomainHelperText = !validDomain(domain)
     ? "Please enter a valid domain"
     : undefined;
   const notionUrlHelperText = !validNotionUrl(notionUrl)
-    ? "Please enter a valid Notion URL"
+    ? "Please enter a valid Notion Page URL"
     : undefined;
-  const noError =
-    domain && notionUrl && !myDomainHelperText && !notionUrlHelperText;
+  const noError = !myDomainHelperText && !notionUrlHelperText;
   const script = noError
     ? code({
-        myDomain,
-        notionUrl,
+        myDomain: domain,
+        notionUrl: url,
         slugs,
         pageTitle,
         pageDescription,
@@ -101,13 +112,14 @@ export default function App() {
     if (!noError) return;
     textarea.current.select();
     document.execCommand("copy");
+    setCopied(true);
   };
   return (
     <section style={{ maxWidth: 666 }}>
       <TextField
         fullWidth
         helperText={myDomainHelperText}
-        label="Your Custom Domain"
+        label="Your Domain (e.g. example.org)"
         onChange={handleMyDomain}
         margin="normal"
         placeholder={DEFAULT_DOMAIN}
@@ -117,7 +129,7 @@ export default function App() {
       <TextField
         fullWidth
         helperText={notionUrlHelperText}
-        label={`Notion Page URL for ${DEFAULT_DOMAIN}`}
+        label={`Page URL for ${domain}`}
         margin="normal"
         onChange={handleNotionUrl}
         placeholder={DEFAULT_NOTION_URL}
@@ -135,7 +147,7 @@ export default function App() {
                 )
               }}
               key="key"
-              label="Custom URL"
+              label="Pretty URL"
               margin="normal"
               placeholder="about"
               onChange={e => handleCustomURL(e.target.value, index)}
@@ -144,7 +156,7 @@ export default function App() {
             />
             <TextField
               fullWidth
-              label={`Notion Page URL for ${domain}/${customUrl || "about"}`}
+              label={`Page URL for ${domain}/${customUrl || "about"}`}
               key="value"
               margin="normal"
               placeholder={DEFAULT_NOTION_URL}
@@ -229,7 +241,7 @@ export default function App() {
           disableElevation
           onClick={copy}
         >
-          Copy the code
+          {copied ? "Copied!" : "Copy the code"}
         </Button>
       </section>
       {noError ? (
