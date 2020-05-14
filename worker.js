@@ -43,7 +43,7 @@ addEventListener("fetch", event => {
 });
 
 function generateSitemap() {
-  sitemap = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+  let sitemap = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
   slugs.forEach(
     (slug) =>
       (sitemap +=
