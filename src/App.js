@@ -129,7 +129,7 @@ export default function App() {
       <TextField
         fullWidth
         helperText={notionUrlHelperText}
-        label={`Page URL for ${domain}`}
+        label={`Notion URL for ${domain}`}
         margin="normal"
         onChange={handleNotionUrl}
         placeholder={DEFAULT_NOTION_URL}
@@ -147,7 +147,7 @@ export default function App() {
                 )
               }}
               key="key"
-              label="Pretty URL"
+              label="Pretty Link"
               margin="normal"
               placeholder="about"
               onChange={e => handleCustomURL(e.target.value, index)}
@@ -156,7 +156,7 @@ export default function App() {
             />
             <TextField
               fullWidth
-              label={`Page URL for ${domain}/${customUrl || "about"}`}
+              label={`Notion URL for ${domain}/${customUrl || "about"}`}
               key="value"
               margin="normal"
               placeholder={DEFAULT_NOTION_URL}
@@ -170,7 +170,7 @@ export default function App() {
               color="secondary"
               size="small"
             >
-              Delete this pretty URL
+              Delete this pretty link
             </Button>
           </section>
         );
@@ -182,7 +182,7 @@ export default function App() {
           variant="outlined"
           color="primary"
         >
-          Add a pretty URL
+          Add a pretty link
         </Button>
       </section>
       <section>
@@ -192,7 +192,7 @@ export default function App() {
           variant="outlined"
           color="primary"
         >
-          Toggle Optional Fields
+          Toggle Style And Script Settings
         </Button>
       </section>
       <Collapse in={optional} timeout="auto" unmountOnExit>

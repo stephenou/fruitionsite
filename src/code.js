@@ -163,7 +163,7 @@ ${slugs
   class HeadRewriter {
     element(element) {
       if (GOOGLE_FONT !== '') {
-        element.append(\`<link href='https://fonts.googleapis.com/css?family=\${GOOGLE_FONT}:Regular,Bold,Italic&display=swap' rel='stylesheet'>
+        element.append(\`<link href="https://fonts.googleapis.com/css?family=\${GOOGLE_FONT}:Regular,Bold,Italic&display=swap" rel="stylesheet">
         <style>* { font-family: \${GOOGLE_FONT} !important; }</style>\`, {
          html: true
         });
@@ -186,7 +186,8 @@ ${slugs
       this.SLUG_TO_PAGE = SLUG_TO_PAGE;
     }
     element(element) {
-      element.append(\`<script>
+      element.append(\`<div style="display:none">Powered by <a href="http://fruitionsite.com">Fruition</a></div>
+      <script>
       const SLUG_TO_PAGE = \${JSON.stringify(this.SLUG_TO_PAGE)};
       const PAGE_TO_SLUG = {};
       const slugs = [];
