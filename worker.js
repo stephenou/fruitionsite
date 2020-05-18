@@ -42,6 +42,17 @@ addEventListener("fetch", event => {
   event.respondWith(fetchAndApply(event.request));
 });
 
+function generateSitemap() {
+  let sitemap = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+  slugs.forEach(
+    (slug) =>
+      (sitemap +=
+        "<url><loc>https://" + MY_DOMAIN + "/" + slug + "</loc></url>")
+  );
+  sitemap += "</urlset>";
+  return sitemap;
+}
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, HEAD, POST, PUT, OPTIONS",
@@ -73,6 +84,14 @@ async function fetchAndApply(request) {
     return handleOptions(request);
   }
   let url = new URL(request.url);
+  if (url.pathname === "/robots.txt") {
+    return new Response("Sitemap: https://" + MY_DOMAIN + "/sitemap.xml");
+  }
+  if (url.pathname === "/sitemap.xml") {
+    let response = new Response(generateSitemap());
+    response.headers.set("content-type", "application/xml");
+    return response;
+  }
   const notionUrl = "https://www.notion.so" + url.pathname;
   let response;
   if (url.pathname.startsWith("/app") && url.pathname.endsWith("js")) {
