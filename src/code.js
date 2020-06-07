@@ -1,27 +1,27 @@
 function getId(url) {
-  try {
-    const id = new URL(url).pathname.slice(-32);
-    if (id.match(/[0-9a-f]{32}/)) return id;
-    return "";
-  } catch (e) {
-    return "";
-  }
+    try {
+        const id = new URL(url).pathname.slice(-32);
+        if (id.match(/[0-9a-f]{32}/)) return id;
+        return '';
+    } catch (e) {
+        return '';
+    }
 }
 
 export default function code(data) {
-  const {
-    myDomain,
-    notionUrl,
-    slugs,
-    pageTitle,
-    pageDescription,
-    googleFont,
-    customScript
-  } = data;
-  let url = myDomain.replace("https://", "").replace("http://", "");
-  if (url.slice(-1) === "/") url = url.slice(0, url.length - 1);
+    const {
+        myDomain,
+        notionUrl,
+        slugs,
+        pageTitle,
+        pageDescription,
+        googleFont,
+        customScript,
+    } = data;
+    let url = myDomain.replace('https://', '').replace('http://', '');
+    if (url.slice(-1) === '/') url = url.slice(0, url.length - 1);
 
-  return `/* CONFIGURATION STARTS HERE */
+    return `/* CONFIGURATION STARTS HERE */
 
   /* Step 1: enter your domain name like fruitionsite.com */
   const MY_DOMAIN = '${url}';
@@ -34,22 +34,22 @@ export default function code(data) {
   const SLUG_TO_PAGE = {
     '': '${getId(notionUrl)}',
 ${slugs
-  .map(([pageUrl, notionUrl]) => {
-    const id = getId(notionUrl);
-    if (!id || !pageUrl) return "";
-    return `    '${pageUrl}': '${id}',\n`;
-  })
-  .join("")}  };
+    .map(([pageUrl, notionUrl]) => {
+        const id = getId(notionUrl);
+        if (!id || !pageUrl) return '';
+        return `    '${pageUrl}': '${id}',\n`;
+    })
+    .join('')}  };
   
   /* Step 3: enter your page title and description for SEO purposes */
-  const PAGE_TITLE = '${pageTitle || ""}';
-  const PAGE_DESCRIPTION = '${pageDescription || ""}';
+  const PAGE_TITLE = '${pageTitle || ''}';
+  const PAGE_DESCRIPTION = '${pageDescription || ''}';
   
   /* Step 4: enter a Google Font name, you can choose from https://fonts.google.com */
-  const GOOGLE_FONT = '${googleFont || ""}';
+  const GOOGLE_FONT = '${googleFont || ''}';
   
   /* Step 5: enter any custom scripts you'd like */
-  const CUSTOM_SCRIPT = \`${customScript || ""}\`;
+  const CUSTOM_SCRIPT = \`${customScript || ''}\`;
   
   /* CONFIGURATION ENDS HERE */
   
@@ -66,6 +66,17 @@ ${slugs
   addEventListener('fetch', event => {
     event.respondWith(fetchAndApply(event.request));
   });
+
+  function generateSitemap() {
+    let sitemap = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+    slugs.forEach(
+      (slug) =>
+        (sitemap +=
+          '<url><loc>https://' + MY_DOMAIN + '/' + slug + '</loc></url>')
+    );
+    sitemap += '</urlset>';
+    return sitemap;
+  }
   
   const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
@@ -96,6 +107,14 @@ ${slugs
       return handleOptions(request);
     }
     let url = new URL(request.url);
+    if (url.pathname === '/robots.txt') {
+      return new Response('Sitemap: https://' + MY_DOMAIN + '/sitemap.xml');
+    }
+    if (url.pathname === '/sitemap.xml') {
+      let response = new Response(generateSitemap());
+      response.headers.set('content-type', 'application/xml');
+      return response;
+    }
     const notionUrl = 'https://www.notion.so' + url.pathname;
     let response;
     if (url.pathname.startsWith('/app') && url.pathname.endsWith('js')) {
