@@ -3,8 +3,15 @@
 /* Step 1: enter your domain name like fruitionsite.com */
 const MY_DOMAIN = "fruitionsite.com";
 
+/* 
+ * Step 2: enter your email address registered to Notion.so
+ * This will be used to match your pages with your Notion account to
+ * protect other slugs to be open on your custom domain.
+ */
+const NOTION_MAIL = "me@fruitionsite.com";
+
 /*
- * Step 2: enter your URL slug to page ID mapping
+ * Step 3: enter your URL slug to page ID mapping
  * The key on the left is the slug (without the slash)
  * The value on the right is the Notion page ID
  */
@@ -15,15 +22,15 @@ const SLUG_TO_PAGE = {
   roadmap: "7d4b21bfb4534364972e8bf9f68c2c36"
 };
 
-/* Step 3: enter your page title and description for SEO purposes */
+/* Step 4: enter your page title and description for SEO purposes */
 const PAGE_TITLE = "Fruition";
 const PAGE_DESCRIPTION =
   "Free, Open Source Toolkit For Customizing Your Notion Page";
 
-/* Step 4: enter a Google Font name, you can choose from https://fonts.google.com */
+/* Step 5: enter a Google Font name, you can choose from https://fonts.google.com */
 const GOOGLE_FONT = "Rubik";
 
-/* Step 5: enter any custom scripts you'd like */
+/* Step 6: enter any custom scripts you'd like */
 const CUSTOM_SCRIPT = ``;
 
 /* CONFIGURATION ENDS HERE */
@@ -115,7 +122,17 @@ async function fetchAndApply(request) {
       },
       method: "POST"
     });
-    response = new Response(response.body, response);
+    
+    let body = await response.text()
+    
+    // Prevent other users' pages to be loaded
+    if (url.pathname.includes("loadPageChunk")) {
+      if (!body.includes(NOTION_MAIL)) {
+        throw new Error('This page does not belong to this user.')
+      }
+    }
+    
+    response = new Response(body, response);
     response.headers.set("Access-Control-Allow-Origin", "*");
   } else if (slugs.indexOf(url.pathname.slice(1)) > -1) {
     const pageId = SLUG_TO_PAGE[url.pathname.slice(1)];
