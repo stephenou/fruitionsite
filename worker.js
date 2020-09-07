@@ -84,6 +84,7 @@ async function fetchAndApply(request) {
     return handleOptions(request);
   }
   let url = new URL(request.url);
+  url.hostname = 'www.notion.so';
   if (url.pathname === "/robots.txt") {
     return new Response("Sitemap: https://" + MY_DOMAIN + "/sitemap.xml");
   }
@@ -92,10 +93,9 @@ async function fetchAndApply(request) {
     response.headers.set("content-type", "application/xml");
     return response;
   }
-  const notionUrl = "https://www.notion.so" + url.pathname;
   let response;
   if (url.pathname.startsWith("/app") && url.pathname.endsWith("js")) {
-    response = await fetch(notionUrl);
+    response = await fetch(url.toString());
     let body = await response.text();
     response = new Response(
       body
@@ -107,7 +107,7 @@ async function fetchAndApply(request) {
     return response;
   } else if (url.pathname.startsWith("/api")) {
     // Forward API
-    response = await fetch(notionUrl, {
+    response = await fetch(url.toString(), {
       body: request.body,
       headers: {
         "content-type": "application/json;charset=UTF-8",
@@ -123,7 +123,7 @@ async function fetchAndApply(request) {
     const pageId = SLUG_TO_PAGE[url.pathname.slice(1)];
     return Response.redirect("https://" + MY_DOMAIN + "/" + pageId, 301);
   } else {
-    response = await fetch(notionUrl, {
+    response = await fetch(url.toString(), {
       body: request.body,
       headers: request.headers,
       method: request.method
