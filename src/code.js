@@ -115,7 +115,8 @@ ${slugs
       response.headers.set('content-type', 'application/xml');
       return response;
     }
-    const notionUrl = 'https://www.notion.so' + url.pathname;
+    let fullPathname = request.url.replace("https://" + MY_DOMAIN, "");
+    const notionUrl = 'https://www.notion.so' + fullPathname;
     let response;
     if (url.pathname.startsWith('/app') && url.pathname.endsWith('js')) {
       response = await fetch(notionUrl);
