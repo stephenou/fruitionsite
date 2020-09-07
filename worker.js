@@ -252,7 +252,18 @@ class BodyRewriter {
         el.className = 'toggle-mode';
         el.addEventListener('click', toggle);
         nav.appendChild(el);
-        onLight();
+
+        // enable smart dark mode basded on user-preference
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            onDark();
+        } else {
+            onLight();
+        }
+
+        // try to detect if user-preference change
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            toggl();
+        });
       }
       const observer = new MutationObserver(function() {
         if (redirected) return;
