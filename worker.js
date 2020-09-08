@@ -253,7 +253,7 @@ class BodyRewriter {
         el.addEventListener('click', toggle);
         nav.appendChild(el);
 
-        // enable smart dark mode basded on user-preference
+        // enable smart dark mode based on user-preference
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             onDark();
         } else {
@@ -262,7 +262,7 @@ class BodyRewriter {
 
         // try to detect if user-preference change
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-            toggl();
+            toggle();
         });
       }
       const observer = new MutationObserver(function() {
