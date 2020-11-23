@@ -269,7 +269,7 @@ class BodyRewriter {
       const observer = new MutationObserver(function() {
         if (redirected) return;
         const nav = document.querySelector('.notion-topbar');
-        const mobileNav = document.querySelector('.notion-topbar-mobile');
+        const mobileNav = document.querySelector('.notion-topbar-mobile>div.notranslate');
         if (nav && nav.firstChild && nav.firstChild.firstChild
           || mobileNav && mobileNav.firstChild) {
           redirected = true;
