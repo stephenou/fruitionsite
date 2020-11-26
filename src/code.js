@@ -15,6 +15,8 @@ export default function code(data) {
         slugs,
         pageTitle,
         pageDescription,
+        imageUrl,
+        twitterUser,
         googleFont,
         customScript,
     } = data;
@@ -44,6 +46,8 @@ ${slugs
   /* Step 3: enter your page title and description for SEO purposes */
   const PAGE_TITLE = '${pageTitle || ''}';
   const PAGE_DESCRIPTION = '${pageDescription || ''}';
+  const IMAGE_URL = '${imageUrl || ''}';
+  const TWITTER_USER = '${twitterUser || ''}';
   
   /* Step 4: enter a Google Font name, you can choose from https://fonts.google.com */
   const GOOGLE_FONT = '${googleFont || ''}';
@@ -157,7 +161,8 @@ ${slugs
     element(element) {
       if (PAGE_TITLE !== '') {
         if (element.getAttribute('property') === 'og:title'
-          || element.getAttribute('name') === 'twitter:title') {
+          || element.getAttribute('name') === 'twitter:title'
+          || element.getAttribute('property') === 'og:site_name') {
           element.setAttribute('content', PAGE_TITLE);
         }
         if (element.tagName === 'title') {
@@ -169,6 +174,17 @@ ${slugs
           || element.getAttribute('property') === 'og:description'
           || element.getAttribute('name') === 'twitter:description') {
           element.setAttribute('content', PAGE_DESCRIPTION);
+        }
+      }
+      if (IMAGE_URL !== '') {
+        if (element.getAttribute('property') === 'og_image'
+          || element.getAttribute('name') === 'twitter:image') {
+          element.setAttribute('content', IMAGE_URL);
+        }
+      }
+      if (TWITTER_USER !== '') {
+        if (element.getAttribute('name') === 'twitter:site') {
+          element.setAttribute('content', TWITTER_USER);
         }
       }
       if (element.getAttribute('property') === 'og:url'
