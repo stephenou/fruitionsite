@@ -217,7 +217,7 @@ ${slugs
       element.append(\`<div style="display:none">Powered by <a href="http://fruitionsite.com">Fruition</a></div>
       <script>
       const SLUG_TO_PAGE = \${JSON.stringify(this.SLUG_TO_PAGE)};
-      const DEFAULT_COLOR = ${JSON.stringify(this.DEFAULT_COLOR)};
+      const DEFAULT_COLOR = \${JSON.stringify(this.DEFAULT_COLOR)};
       const PAGE_TO_SLUG = {};
       const slugs = [];
       const pages = [];
