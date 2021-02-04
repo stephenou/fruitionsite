@@ -175,8 +175,16 @@ ${slugs
         || element.getAttribute('name') === 'twitter:url') {
         element.setAttribute('content', MY_DOMAIN);
       }
-      if (element.getAttribute('name') === 'apple-itunes-app') {
-        element.remove();
+      if (element.getAttribute('name') === 'apple-itunes-app'
+          || element.getAttribute('name') === 'twitter:site'
+          || element.getAttribute('property') === 'og:site_name') {
+          element.remove();
+      }
+      if ((element.getAttribute('name') === 'twitter:image'
+          || element.getAttribute('property') === 'og:image')
+          && element.getAttribute('content') === 'https://www.notion.so/images/meta/default.png') {
+          // TODO: update content based on input field for the sharing image
+          element.remove();
       }
     }
   }
@@ -194,8 +202,10 @@ ${slugs
       div.notion-topbar > div > div:nth-child(4) { display: none !important; }
       div.notion-topbar > div > div:nth-child(5) { display: none !important; }
       div.notion-topbar > div > div:nth-child(6) { display: none !important; }
+      div.notion-topbar-mobile > div:nth-child(1) { padding: 0px 10px !important; }
       div.notion-topbar-mobile > div:nth-child(3) { display: none !important; }
       div.notion-topbar-mobile > div:nth-child(4) { display: none !important; }
+      div.notion-topbar-mobile > div:nth-child(5) { display: none !important; }
       div.notion-topbar > div > div:nth-child(1n).toggle-mode { display: block !important; }
       div.notion-topbar-mobile > div:nth-child(1n).toggle-mode { display: block !important; }
       </style>\`, {
