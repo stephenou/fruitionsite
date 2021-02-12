@@ -26,6 +26,9 @@ const GOOGLE_FONT = "Rubik";
 /* Step 5: enter any custom scripts you'd like */
 const CUSTOM_SCRIPT = ``;
 
+/* Add custom logo to the website */
+const PAGE_LOGO = 'https://fruitionsite.com/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F4c44874f-e60d-4d55-a6cd-6c9e0fdb6c6d%2FIcon.png?table=block&id=771ef386-5724-4c27-b938-9734a9cbff44&width=250&userId=&cache=v2'
+
 /* CONFIGURATION ENDS HERE */
 
 const PAGE_TO_SLUG = {};
@@ -143,33 +146,31 @@ async function fetchAndApply(request) {
 
 class MetaRewriter {
   element(element) {
-    if (PAGE_TITLE !== "") {
-      if (
-        element.getAttribute("property") === "og:title" ||
-        element.getAttribute("name") === "twitter:title"
-      ) {
-        element.setAttribute("content", PAGE_TITLE);
+ if (PAGE_TITLE !== '') {
+ if (element.getAttribute('property') === 'og:title'
+        || element.getAttribute('name') === 'twitter:title') {
+        element.setAttribute('content', PAGE_TITLE);
       }
-      if (element.tagName === "title") {
+ if (element.tagName === 'title') {
         element.setInnerContent(PAGE_TITLE);
       }
     }
-    if (PAGE_DESCRIPTION !== "") {
-      if (
-        element.getAttribute("name") === "description" ||
-        element.getAttribute("property") === "og:description" ||
-        element.getAttribute("name") === "twitter:description"
-      ) {
-        element.setAttribute("content", PAGE_DESCRIPTION);
+ if (element.getAttribute('property') === 'og:image'
+      || element.getAttribute('name') === 'twitter:image') {
+      element.setAttribute('content', PAGE_LOGO);}
+ if (PAGE_DESCRIPTION !== '') {
+ if (element.getAttribute('name') === 'description'
+        || element.getAttribute('property') === 'og:description'
+        || element.getAttribute('name') === 'twitter:description') {
+        element.setAttribute('content', PAGE_DESCRIPTION);
       }
     }
-    if (
-      element.getAttribute("property") === "og:url" ||
-      element.getAttribute("name") === "twitter:url"
-    ) {
-      element.setAttribute("content", MY_DOMAIN);
+ if (element.getAttribute('property') === 'og:url'
+      || element.getAttribute('name') === 'twitter:url') {
+      element.setAttribute('content', MY_DOMAIN);
+ 
     }
-    if (element.getAttribute("name") === "apple-itunes-app") {
+ if (element.getAttribute('name') === 'apple-itunes-app') {
       element.remove();
     }
   }
