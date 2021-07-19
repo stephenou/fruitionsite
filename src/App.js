@@ -3,7 +3,7 @@ import { Button, Collapse, InputAdornment, TextField } from "@material-ui/core";
 import code from "./code";
 import "./styles.css";
 
-const DEFAULT_DOMAIN = "example.org";
+const DEFAULT_DOMAIN = "fruitionsite.com";
 const DEFAULT_NOTION_URL =
   "https://stephenou.notion.site/771ef38657244c27b9389734a9cbff44";
 
