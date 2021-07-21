@@ -135,6 +135,9 @@ ${slugs
       });
       response = new Response(response.body, response);
       response.headers.set('Access-Control-Allow-Origin', '*');
+      if (url.pathname.startsWith('/api/v3/getPublicPageData')) {
+        response.body.delete('requireInterstitial');
+      }
       return response;
     } else if (slugs.indexOf(url.pathname.slice(1)) > -1) {
       const pageId = SLUG_TO_PAGE[url.pathname.slice(1)];
