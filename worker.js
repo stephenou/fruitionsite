@@ -23,7 +23,10 @@ const PAGE_DESCRIPTION =
 /* Step 4: enter a Google Font name, you can choose from https://fonts.google.com */
 const GOOGLE_FONT = "Rubik";
 
-/* Step 5: enter any custom scripts you'd like */
+/* Step 5: Google analytics tag */
+const GA_TAG = '';
+
+/* Step 6: enter any custom scripts you'd like */
 const CUSTOM_SCRIPT = ``;
 
 /* CONFIGURATION ENDS HERE */
@@ -213,7 +216,16 @@ class BodyRewriter {
   }
   element(element) {
     element.append(
-      `<script>
+      `<div style="display:none"></div>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_TAG}"></script>
+      <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', ${GA_TAG});
+      </script>
+      <script>
       const SLUG_TO_PAGE = ${JSON.stringify(this.SLUG_TO_PAGE)};
       const PAGE_TO_SLUG = {};
       const slugs = [];
