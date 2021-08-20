@@ -1,5 +1,14 @@
 import React, { useState, useRef } from "react";
-import { Button, Collapse, InputAdornment, TextField } from "@material-ui/core";
+import {
+  Button,
+  Collapse,
+  InputAdornment,
+  TextField,
+  FormControl,
+  Select,
+  makeStyles,
+  InputLabel
+} from "@material-ui/core";
 import code from "./code";
 import "./styles.css";
 
@@ -26,6 +35,16 @@ function validNotionUrl(url) {
   }
 }
 
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2)
+  }
+}));
+
 export default function App() {
   const [slugs, setSlugs] = useState([]);
   const [myDomain, setMyDomain] = useState("");
@@ -36,35 +55,40 @@ export default function App() {
   const [customScript, setCustomScript] = useState("");
   const [optional, setOptional] = useState(false);
   const [copied, setCopied] = useState(false);
-  const handleMyDomain = e => {
+  const [defaultColor, setDefaultColor] = useState("");
+  const handleMyDomain = (e) => {
     setMyDomain(e.target.value);
     setCopied(false);
   };
-  const handleNotionUrl = e => {
+  const handleNotionUrl = (e) => {
     setNotionUrl(e.target.value);
     setCopied(false);
   };
-  const handlePageTitle = e => {
+  const handlePageTitle = (e) => {
     setPageTitle(e.target.value);
     setCopied(false);
   };
-  const handlePageDescription = e => {
+  const handlePageDescription = (e) => {
     setPageDescription(e.target.value);
     setCopied(false);
   };
-  const handleGoogleFont = e => {
+  const handleGoogleFont = (e) => {
     setGoogleFont(e.target.value);
     setCopied(false);
   };
-  const handleCustomScript = e => {
+  const handleCustomScript = (e) => {
     setCustomScript(e.target.value);
+    setCopied(false);
+  };
+  const handleColorChange = (e) => {
+    setDefaultColor(e.target.value);
     setCopied(false);
   };
   const addSlug = () => {
     setSlugs([...slugs, ["", ""]]);
     setCopied(false);
   };
-  const deleteSlug = index => {
+  const deleteSlug = (index) => {
     setSlugs([...slugs.slice(0, index), ...slugs.slice(index + 1)]);
     setCopied(false);
   };
@@ -104,6 +128,7 @@ export default function App() {
         pageTitle,
         pageDescription,
         googleFont,
+        defaultColor,
         customScript
       })
     : undefined;
@@ -114,6 +139,7 @@ export default function App() {
     document.execCommand("copy");
     setCopied(true);
   };
+  const classes = useStyles();
   return (
     <section style={{ maxWidth: 666 }}>
       <TextField
@@ -150,7 +176,7 @@ export default function App() {
               label="Pretty Link"
               margin="normal"
               placeholder="about"
-              onChange={e => handleCustomURL(e.target.value, index)}
+              onChange={(e) => handleCustomURL(e.target.value, index)}
               value={customUrl}
               variant="outlined"
             />
@@ -160,7 +186,7 @@ export default function App() {
               key="value"
               margin="normal"
               placeholder={DEFAULT_NOTION_URL}
-              onChange={e => handleNotionPageURL(e.target.value, index)}
+              onChange={(e) => handleNotionPageURL(e.target.value, index)}
               value={notionPageUrl}
               variant="outlined"
             />
@@ -221,6 +247,22 @@ export default function App() {
           value={googleFont}
           variant="outlined"
         />
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="age-native-simple">Default Color</InputLabel>
+          <Select
+            native
+            value={defaultColor}
+            onChange={handleColorChange}
+            inputProps={{
+              name: "age",
+              id: "age-native-simple"
+            }}
+          >
+            <option aria-label="None" value="" />
+            <option value={"light"}>Light</option>
+            <option value={"dark"}>Dark</option>
+          </Select>
+        </FormControl>
         <TextField
           fullWidth
           label="Paste Your Custom Script"

@@ -1,27 +1,28 @@
 function getId(url) {
-    try {
-        const id = new URL(url).pathname.slice(-32);
-        if (id.match(/[0-9a-f]{32}/)) return id;
-        return '';
-    } catch (e) {
-        return '';
-    }
+  try {
+    const id = new URL(url).pathname.slice(-32);
+    if (id.match(/[0-9a-f]{32}/)) return id;
+    return "";
+  } catch (e) {
+    return "";
+  }
 }
 
 export default function code(data) {
-    const {
-        myDomain,
-        notionUrl,
-        slugs,
-        pageTitle,
-        pageDescription,
-        googleFont,
-        customScript,
-    } = data;
-    let url = myDomain.replace('https://', '').replace('http://', '');
-    if (url.slice(-1) === '/') url = url.slice(0, url.length - 1);
+  const {
+    myDomain,
+    notionUrl,
+    slugs,
+    pageTitle,
+    pageDescription,
+    googleFont,
+    customScript,
+    defaultColor
+  } = data;
+  let url = myDomain.replace("https://", "").replace("http://", "");
+  if (url.slice(-1) === "/") url = url.slice(0, url.length - 1);
 
-    return `  /* CONFIGURATION STARTS HERE */
+  return `  /* CONFIGURATION STARTS HERE */
   
   /* Step 1: enter your domain name like fruitionsite.com */
   const MY_DOMAIN = '${url}';
@@ -34,22 +35,25 @@ export default function code(data) {
   const SLUG_TO_PAGE = {
     '': '${getId(notionUrl)}',
 ${slugs
-    .map(([pageUrl, notionUrl]) => {
-        const id = getId(notionUrl);
-        if (!id || !pageUrl) return '';
-        return `    '${pageUrl}': '${id}',\n`;
-    })
-    .join('')}  };
+  .map(([pageUrl, notionUrl]) => {
+    const id = getId(notionUrl);
+    if (!id || !pageUrl) return "";
+    return `    '${pageUrl}': '${id}',\n`;
+  })
+  .join("")}  };
   
   /* Step 3: enter your page title and description for SEO purposes */
-  const PAGE_TITLE = '${pageTitle || ''}';
-  const PAGE_DESCRIPTION = '${pageDescription || ''}';
+  const PAGE_TITLE = '${pageTitle || ""}';
+  const PAGE_DESCRIPTION = '${pageDescription || ""}';
   
   /* Step 4: enter a Google Font name, you can choose from https://fonts.google.com */
-  const GOOGLE_FONT = '${googleFont || ''}';
+  const GOOGLE_FONT = '${googleFont || ""}';
+
+  /* Step 5: select the default color mode (dark or light) */
+  const DEFAULT_COLOR = \`${defaultColor || ""}\`;
   
-  /* Step 5: enter any custom scripts you'd like */
-  const CUSTOM_SCRIPT = \`${customScript || ''}\`;
+  /* Step 6: enter any custom scripts you'd like */
+  const CUSTOM_SCRIPT = \`${customScript || ""}\`;
   
   /* CONFIGURATION ENDS HERE */
   
@@ -207,12 +211,14 @@ ${slugs
   class BodyRewriter {
     constructor(SLUG_TO_PAGE) {
       this.SLUG_TO_PAGE = SLUG_TO_PAGE;
+      this.DEFAULT_COLOR = DEFAULT_COLOR;
     }
     element(element) {
       element.append(\`<div style="display:none">Powered by <a href="http://fruitionsite.com">Fruition</a></div>
       <script>
       window.CONFIG.domainBaseUrl = 'https://\${MY_DOMAIN}';
       const SLUG_TO_PAGE = \${JSON.stringify(this.SLUG_TO_PAGE)};
+      const DEFAULT_COLOR = \${JSON.stringify(this.DEFAULT_COLOR)};
       const PAGE_TO_SLUG = {};
       const slugs = [];
       const pages = [];
@@ -258,7 +264,12 @@ ${slugs
         el.className = 'toggle-mode';
         el.addEventListener('click', toggle);
         nav.appendChild(el);
-        onLight();
+        if (DEFAULT_COLOR !== 'dark') {
+          onLight();
+        }
+        else {
+          onDark();
+        }
       }
       const observer = new MutationObserver(function() {
         if (redirected) return;
