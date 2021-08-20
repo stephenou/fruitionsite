@@ -94,7 +94,7 @@ async function fetchAndApply(request) {
     return response;
   }
   let response;
-  if (url.pathname.startsWith("/app") && url.pathname.endsWith("js")) {
+  if (url.pathname.endsWith("js")) {
     response = await fetch(url.toString());
     let body = await response.text();
     response = new Response(
