@@ -1,7 +1,8 @@
 /* CONFIGURATION STARTS HERE */
 
-/* Step 1: enter your domain name like fruitionsite.com */
+/* Step 1: enter your domain name like www.(fruitionsite.com) and (fruition).notion.site */
 const MY_DOMAIN = "fruitionsite.com";
+const MY_NOTION_DOMAIN = "fruition";
 
 /*
  * Step 2: enter your URL slug to page ID mapping
@@ -84,7 +85,7 @@ async function fetchAndApply(request) {
     return handleOptions(request);
   }
   let url = new URL(request.url);
-  url.hostname = 'www.notion.so';
+  url.hostname = MY_NOTION_DOMAIN + '.notion.site';
   if (url.pathname === "/robots.txt") {
     return new Response("Sitemap: https://" + MY_DOMAIN + "/sitemap.xml");
   }
@@ -100,7 +101,8 @@ async function fetchAndApply(request) {
     response = new Response(
       body
         .replace(/www.notion.so/g, MY_DOMAIN)
-        .replace(/notion.so/g, MY_DOMAIN),
+        .replace(/notion.so/g, MY_DOMAIN)
+        .replace(/${MY_NOTION_DOMAIN}.notion.site/g, MY_DOMAIN),
       response
     );
     response.headers.set("Content-Type", "application/x-javascript");
@@ -313,7 +315,7 @@ class BodyRewriter {
       };
       const open = window.XMLHttpRequest.prototype.open;
       window.XMLHttpRequest.prototype.open = function() {
-        arguments[1] = arguments[1].replace('${MY_DOMAIN}', 'www.notion.so');
+        arguments[1] = arguments[1].replace('${MY_DOMAIN}', '${MY_NOTION_DOMAIN}.notion.site');
         return open.apply(this, [].slice.call(arguments));
       };
     </script>${CUSTOM_SCRIPT}`,
