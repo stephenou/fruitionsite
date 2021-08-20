@@ -225,7 +225,7 @@ class BodyRewriter {
         PAGE_TO_SLUG[page] = slug;
       });
       function getPage() {
-        return location.pathname.slice(-32);
+        return location.pathname.slice(1);
       }
       function getSlug() {
         return location.pathname.slice(1);
