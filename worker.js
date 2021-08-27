@@ -23,7 +23,13 @@ const PAGE_DESCRIPTION =
 /* Step 4: enter a Google Font name, you can choose from https://fonts.google.com */
 const GOOGLE_FONT = "Rubik";
 
-/* Step 5: enter any custom scripts you'd like */
+/* Step 5: Add a custom favicon (your Notion avatar URL works too) */
+const CUSTOM_AVATAR = "";
+
+/* Step 6: enter any custom CSS, no style tag needed */
+const CUSTOM_STYLE = ``;
+
+/* Step 7: enter any custom scripts you'd like, script tag needed */
 const CUSTOM_SCRIPT = ``;
 
 /* CONFIGURATION ENDS HERE */
@@ -175,12 +181,26 @@ class MetaRewriter {
   }
 }
 
+  class LinkRewriter {
+    element(element) {
+      if (element.getAttribute('rel') === 'shortcut icon') {
+        element.setAttribute('href', CUSTOM_AVATAR);
+      }
+
+      if (element.getAttribute('rel') === 'apple-touch-icon') {
+        element.setAttribute('href', CUSTOM_AVATAR);
+      }
+    }
+  }
+
 class HeadRewriter {
   element(element) {
     if (GOOGLE_FONT !== "") {
-      element.append(
-        `<link href='https://fonts.googleapis.com/css?family=${GOOGLE_FONT.replace(' ', '+')}:Regular,Bold,Italic&display=swap' rel='stylesheet'>
-        <style>* { font-family: "${GOOGLE_FONT}" !important; }</style>`,
+        element.append(`<link href="https://fonts.googleapis.com/css?family=${GOOGLE_FONT.replace(' ', '+')}:Regular,Bold,Italic&display=swap" rel="stylesheet">
+        <style>
+            * { font-family: "${GOOGLE_FONT}" !important; }
+            a { font-weight: inherit !important; }
+        </style>`,
         {
           html: true
         }
@@ -196,6 +216,8 @@ class HeadRewriter {
       div.notion-topbar-mobile > div:nth-child(4) { display: none !important; }
       div.notion-topbar > div > div:nth-child(1n).toggle-mode { display: block !important; }
       div.notion-topbar-mobile > div:nth-child(1n).toggle-mode { display: block !important; }
+
+      ${CUSTOM_STYLE}
       </style>`,
       {
         html: true
@@ -209,7 +231,7 @@ class BodyRewriter {
     this.SLUG_TO_PAGE = SLUG_TO_PAGE;
   }
   element(element) {
-    element.append(
+      element.append(
       `<script>
       window.CONFIG.domainBaseUrl = 'https://${MY_DOMAIN}';
       const SLUG_TO_PAGE = ${JSON.stringify(this.SLUG_TO_PAGE)};
@@ -259,7 +281,7 @@ class BodyRewriter {
         el.addEventListener('click', toggle);
         nav.appendChild(el);
 
-        // enable smart dark mode based on user-preference
+        // enable smart dark mode basded on user-preference
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             onDark();
         } else {
@@ -272,6 +294,12 @@ class BodyRewriter {
         });
       }
       const observer = new MutationObserver(function() {
+        document.querySelectorAll('link').forEach((element) => {
+        if (element.getAttribute('rel') === 'shortcut icon') {
+            element.setAttribute('href', '${CUSTOM_AVATAR}');
+        }
+        })
+
         if (redirected) return;
         const nav = document.querySelector('.notion-topbar');
         const mobileNav = document.querySelector('.notion-topbar-mobile');
@@ -326,9 +354,10 @@ class BodyRewriter {
 
 async function appendJavascript(res, SLUG_TO_PAGE) {
   return new HTMLRewriter()
-    .on("title", new MetaRewriter())
-    .on("meta", new MetaRewriter())
-    .on("head", new HeadRewriter())
-    .on("body", new BodyRewriter(SLUG_TO_PAGE))
+      .on('title', new MetaRewriter())
+      .on('meta', new MetaRewriter())
+      .on('head', new HeadRewriter())
+      .on('link', new LinkRewriter())
+      .on('body', new BodyRewriter(SLUG_TO_PAGE))
     .transform(res);
 }
