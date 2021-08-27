@@ -231,7 +231,8 @@ class BodyRewriter {
     this.SLUG_TO_PAGE = SLUG_TO_PAGE;
   }
   element(element) {
-      element.append(`<script>
+      element.append(
+      `<script>
       window.CONFIG.domainBaseUrl = 'https://${MY_DOMAIN}';
       const SLUG_TO_PAGE = ${JSON.stringify(this.SLUG_TO_PAGE)};
       const PAGE_TO_SLUG = {};
