@@ -211,7 +211,7 @@ ${slugs
     element(element) {
       element.append(\`<div style="display:none">Powered by <a href="http://fruitionsite.com">Fruition</a></div>
       <script>
-      window.CONFIG.domainBaseUrl = 'https://\${MY_DOMAIN}';
+      window.CONFIG.domainBaseUrl = location.origin;
       const SLUG_TO_PAGE = \${JSON.stringify(this.SLUG_TO_PAGE)};
       const PAGE_TO_SLUG = {};
       const slugs = [];
