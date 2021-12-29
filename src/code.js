@@ -50,6 +50,9 @@ ${slugs
   
   /* Step 5: enter any custom scripts you'd like */
   const CUSTOM_SCRIPT = \`${customScript || ''}\`;
+
+  /* Step 6: choose default theme (light by default) */
+  const LIGHT_THEME_BY_DEFAULT = true
   
   /* CONFIGURATION ENDS HERE */
   
@@ -258,7 +261,11 @@ ${slugs
         el.className = 'toggle-mode';
         el.addEventListener('click', toggle);
         nav.appendChild(el);
-        onLight();
+        if (\${LIGHT_THEME_BY_DEFAULT}) {
+          onLight();
+        } else {
+          onDark();
+        }
       }
       const observer = new MutationObserver(function() {
         if (redirected) return;
