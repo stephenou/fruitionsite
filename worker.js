@@ -24,7 +24,7 @@ const PAGE_DESCRIPTION =
 const GOOGLE_FONT = "Rubik";
 
 /* Step 5: enter any custom scripts you'd like */
-const CUSTOM_SCRIPT = ``;
+const CUSTOM_SCRIPT = String.raw``;
 
 /* CONFIGURATION ENDS HERE */
 
