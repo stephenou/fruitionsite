@@ -1,11 +1,9 @@
-# Fruition: Free, Open Source Toolkit For Customizing Your Notion Pages
+# Worknot
 
-* Use cases: perfect for your portfolio, blog, landing page, and business site
-* Features: pretty URLs, custom domains, Google Fonts, SEO support, script injection
-* Benefits: completely free, no lock-in, and open source
+Worknot is a Notion wrapper powered by Cloudflare Workers. This project is a fork from Fruition but with a tighter integration with Cloudflare services for Notion sites. 
 
-For step-by-step setup instructions, visit https://fruitionsite.com
+## Features
 
-This repo has 2 independent parts:
-1. [worker.js](https://github.com/stephenou/fruitionsite/blob/master/worker.js) is the Cloudflare Worker script
-2. everything else is a React app that helps generate the Worker script via a UI.
+- Fast and efficient Notion wrapper powered by Cloudflare Workers
+- Utilizes Cloudflare services to provide a more seamless and integrated experience with Notion sites
+- Easy to set up and use with any Notion site
