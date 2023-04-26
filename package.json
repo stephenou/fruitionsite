@@ -9,15 +9,15 @@
   "type": "module",
   "main": "src/index.js",
   "dependencies": {
-    "@mui/material": "^5.12.2",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@mui/material": "^5.12.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1"
   },
   "devDependencies": {
-    "typescript": "^5.0.4"
+    "typescript": "^4.1.6"
   },
   "scripts": {
     "start": "react-scripts start",
