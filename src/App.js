@@ -119,7 +119,7 @@ export default function App() {
       <TextField
         fullWidth
         helperText={myDomainHelperText}
-        label="Your Domain (e.g. example.org)"
+        label="Your Domain (e.g. something.example.org)"
         onChange={handleMyDomain}
         margin="normal"
         placeholder={DEFAULT_DOMAIN}

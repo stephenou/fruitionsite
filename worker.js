@@ -1,7 +1,7 @@
 /* CONFIGURATION STARTS HERE */
 
-/* Step 1: enter your domain name like fruitionsite.com */
-const MY_DOMAIN = "fruitionsite.com";
+/* Step 1: enter your domain name like example.com */
+const MY_DOMAIN = "example.com";
 
 /*
  * Step 2: enter your URL slug to page ID mapping
@@ -16,7 +16,7 @@ const SLUG_TO_PAGE = {
 };
 
 /* Step 3: enter your page title and description for SEO purposes */
-const PAGE_TITLE = "Fruition";
+const PAGE_TITLE = "Worknot";
 const PAGE_DESCRIPTION =
   "Free, Open Source Toolkit For Customizing Your Notion Page";
 
