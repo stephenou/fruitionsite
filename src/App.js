@@ -5,7 +5,7 @@ import "./styles.css";
 
 const DEFAULT_DOMAIN = "fruitionsite.com";
 const DEFAULT_NOTION_URL =
-  "https://stephenou.notion.site/771ef38657244c27b9389734a9cbff44";
+  "https://succinct-scar-f20.notion.site/Sample-Web-Site-148f2fc322e74473a91fb4d90836e3ce";
 
 function validDomain(domain) {
   return domain.match(
