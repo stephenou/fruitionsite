@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Button, Collapse, InputAdornment, TextField } from "@material-ui/core";
+import { Button, Collapse, InputAdornment, TextField } from "@mui/material";
 import code from "./code";
 import "./styles.css";
 
