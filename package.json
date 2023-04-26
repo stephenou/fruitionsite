@@ -9,13 +9,13 @@
   "type": "module",
   "main": "src/index.js",
   "dependencies": {
-    "@mui/material": "^5.12.2",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-scripts": "^5.0.1"
+    "@material-ui/core": "^4.12.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "4.0.3"
   },
   "devDependencies": {
-    "typescript": "^5.0.4"
+    "typescript": "^4.4.4"
   },
   "scripts": {
     "start": "react-scripts start",
