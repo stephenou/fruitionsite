@@ -1,8 +1,9 @@
 import React, { useState, useRef } from "react";
-import { Button, Collapse, InputAdornment, TextField } from "@mui/material";
+import { Button, Collapse, InputAdornment, TextField } from "@material-ui/core";
 import code from "./code";
 import "./styles.css";
 
+const DEFAULT_DOMAIN = "fruitionsite.com";
 const DEFAULT_NOTION_URL =
   "https://succinct-scar-f20.notion.site/Sample-Web-Site-148f2fc322e74473a91fb4d90836e3ce";
 
