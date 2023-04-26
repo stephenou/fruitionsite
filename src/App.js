@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Button, Collapse, InputAdornment, TextField } from "@mui/material";
-import code from "./code";
+import code from "./code.js";
 import "./styles.css";
 
 const DEFAULT_DOMAIN = "fruitionsite.com";
