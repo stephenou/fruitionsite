@@ -9,7 +9,7 @@
   "type": "module",
   "main": "src/index.js",
   "dependencies": {
-    "@mui/material": "^5.12.1",
+    "@mui/material": "^5.12.2",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "react": "^18.2.0",
