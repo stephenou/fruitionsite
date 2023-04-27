@@ -3,7 +3,7 @@ import { Button, Collapse, InputAdornment, TextField } from "@mui/material";
 import code from "./code.js";
 import "./styles.css";
 
-const DEFAULT_DOMAIN = "fruitionsite.com";
+const DEFAULT_DOMAIN = "worknot.classmethod.cf";
 const DEFAULT_NOTION_URL =
   "https://succinct-scar-f20.notion.site/Sample-Web-Site-148f2fc322e74473a91fb4d90836e3ce";
 

@@ -23,7 +23,7 @@ export default function code(data) {
 
     return `  /* CONFIGURATION STARTS HERE */
   
-  /* Step 1: enter your domain name like fruitionsite.com */
+  /* Step 1: enter your domain name like something.example.com */
   const MY_DOMAIN = '${url}';
   
   /*
@@ -209,7 +209,7 @@ ${slugs
       this.SLUG_TO_PAGE = SLUG_TO_PAGE;
     }
     element(element) {
-      element.append(\`<div style="display:none">Powered by <a href="http://fruitionsite.com">Fruition</a></div>
+      element.append(\`<div style="display:none">Powered by <a href="http://worknot.classmethod.cf">Worknot</a></div>
       <script>
       window.CONFIG.domainBaseUrl = 'https://\${MY_DOMAIN}';
       const SLUG_TO_PAGE = \${JSON.stringify(this.SLUG_TO_PAGE)};

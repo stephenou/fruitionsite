@@ -1,7 +1,7 @@
 /* CONFIGURATION STARTS HERE */
 
-/* Step 1: enter your domain name like example.com */
-const MY_DOMAIN = "example.com";
+/* Step 1: enter your domain name like something.example.com */
+const MY_DOMAIN = "something.example.com";
 
 /*
  * Step 2: enter your URL slug to page ID mapping
