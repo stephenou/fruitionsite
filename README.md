@@ -7,6 +7,7 @@ Worknot is a Notion wrapper powered by Cloudflare Workers. This project is a for
 - Fast and efficient Notion wrapper powered by Cloudflare Workers
 - Utilizes Cloudflare services to provide a more seamless and integrated experience with Notion sites
 - Easy to set up and use with any Notion site
+- Image resizing and format conversion option is available.
 
 ## Setup
 
