@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Button, Collapse, InputAdornment, TextField } from "@mui/material";
+import { Button, Collapse, InputAdornment, TextField, Container, RadioGroup, Radio, Box, Alert, Stack, Select, MenuItem, InputLabel, FormControl, FormControlLabel, Typography} from "@mui/material";
 import code from "./code.js";
 import "./styles.css";
 
@@ -35,6 +35,8 @@ export default function App() {
   const [googleFont, setGoogleFont] = useState("");
   const [customScript, setCustomScript] = useState("");
   const [optional, setOptional] = useState(false);
+  const [optionImage, setOptionImage] = useState({});
+  const [optionalImageResize, setOptionalImageResize] = useState(false);
   const [copied, setCopied] = useState(false);
   const handleMyDomain = e => {
     setMyDomain(e.target.value);
@@ -87,6 +89,20 @@ export default function App() {
   const handleOptional = () => {
     setOptional(!optional);
   };
+
+  const handleImageOption = (target) => {
+    let formValue = target.value
+    if (target.name === 'imageResizeType') {
+      target.value === 'resize' ? setOptionalImageResize(true) : setOptionalImageResize(false)
+    } else if (target.name === 'imageQuality') {
+      formValue > 100 && (formValue = 100)
+      formValue < 0 && (formValue = 1)
+    }
+    optionImage[target.name] = formValue
+    setOptionImage({ ...optionImage })
+    setCopied(false);
+  };
+
   const domain = myDomain || DEFAULT_DOMAIN;
   const url = notionUrl || DEFAULT_NOTION_URL;
   const myDomainHelperText = !validDomain(domain)
@@ -104,7 +120,8 @@ export default function App() {
         pageTitle,
         pageDescription,
         googleFont,
-        customScript
+        customScript,
+        optionImage
       })
     : undefined;
   const textarea = useRef("");
@@ -115,7 +132,7 @@ export default function App() {
     setCopied(true);
   };
   return (
-    <section style={{ maxWidth: 666 }}>
+    <Container maxWidth="md">
       <TextField
         fullWidth
         helperText={myDomainHelperText}
@@ -233,6 +250,99 @@ export default function App() {
           variant="outlined"
         />
       </Collapse>
+
+      <Stack mt={4} mb={6}>
+        <Typography variant="h5" component="h2">
+          Image Optimization
+        </Typography>
+        <RadioGroup
+          row
+          aria-labelledby="imageResizeTypeLabel"
+          defaultValue="none"
+          name="imageResizeType"
+          onChange={e => handleImageOption(e.target)}
+        >
+          <FormControlLabel value="none" control={<Radio />} label="None" />
+          <FormControlLabel value="resize" control={<Radio />} label="Image Resizing" />
+        </RadioGroup>
+        <Collapse in={optionalImageResize} timeout="auto" unmountOnExit>
+          <Box
+            component="form"
+            autoComplete="off"
+          >
+            <TextField
+              type="number"
+              label="Width"
+              name="imageWidth"
+              placeholder="1600"
+              onChange={e => handleImageOption(e.target)}
+              value={Number(optionImage["imageWidth"]).toString() || ''}
+              variant="filled"
+              sx={{ m: 1, width: '20ch' }}
+            />
+            <TextField
+              type="number"
+              label="Height"
+              name="imageHeight"
+              placeholder="800"
+              onChange={e => handleImageOption(e.target)}
+              value={Number(optionImage["imageHeight"]).toString() || ''}
+              variant="filled"
+              sx={{ m: 1, width: '20ch' }}
+            />
+            <TextField
+              type="number"
+              inputProps={{ min: "1", max: "100", step: "1" }}
+              label="Quality"
+              name="imageQuality"
+              placeholder="60"
+              onChange={e => handleImageOption(e.target)}
+              value={Number(optionImage["imageQuality"]).toString() || ''}
+              variant="filled"
+              sx={{ m: 1, width: '12ch' }}
+            />
+            <FormControl
+              variant="filled"
+              sx={{ m: 1, minWidth: '22ch' }}
+            >
+              <InputLabel id="imageFormatLabel">Format</InputLabel>
+              <Select
+                labelId="imageFormatLabel"
+                label="Format"
+                name="imageFormat"
+                value={optionImage["imageFormat"] || ''}
+                onChange={e => handleImageOption(e.target)}
+              >
+                <MenuItem value="avif">avif</MenuItem>
+                <MenuItem value="webp">webp</MenuItem>
+                <MenuItem value="json">json</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl
+              variant="filled"
+              sx={{ m: 1, minWidth: '22ch' }}
+            >
+              <InputLabel id="imageFitLabel">Fit</InputLabel>
+              <Select
+                labelId="imageFitLabel"
+                label="Fit"
+                name="imageFit"
+                value={optionImage["imageFit"] || ''}
+                onChange={e => handleImageOption(e.target)}
+              >
+                <MenuItem value="scale-down">scale-down</MenuItem>
+                <MenuItem value="contain">contain</MenuItem>
+                <MenuItem value="cover">cover</MenuItem>
+                <MenuItem value="crop">crop</MenuItem>
+                <MenuItem value="pad">pad</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+          <Alert severity="warning">
+            To activate this option, please turn on `Image Resizing` from the dashboard. <a href="https://developers.cloudflare.com/images/image-resizing/enable-image-resizing/" target="_blank">More details</a>
+          </Alert>
+        </Collapse>
+      </Stack>
       <section>
         <Button
           disabled={!noError}
@@ -259,6 +369,6 @@ export default function App() {
       ) : (
         ""
       )}
-    </section>
+    </Container>
   );
 }

@@ -17,6 +17,7 @@ export default function code(data) {
         pageDescription,
         googleFont,
         customScript,
+        optionImage,
     } = data;
     let url = myDomain.replace('https://', '').replace('http://', '');
     if (url.slice(-1) === '/') url = url.slice(0, url.length - 1);
@@ -50,9 +51,24 @@ ${slugs
   
   /* Step 5: enter any custom scripts you'd like */
   const CUSTOM_SCRIPT = \`${customScript || ''}\`;
-  
+
+  /*
+   * Step 6: enter your preference of image optimization
+   * You can choose from none or resize
+   * Polish cannnot be chosen at the moment
+   */
+  const IMAGE_OPTIMIZATION = \`${optionImage["imageResizeType"] || ''}\`;
+  //If you choose 'resize' above, please configure the details
+  const IMAGE_RESIZE_OPTIONS = {
+    width: ${Math.trunc(optionImage["imageWidth"]) || "''"},
+    height: ${Math.trunc(optionImage["imageHeight"]) || "''"},
+    quality: ${Math.trunc(optionImage["imageQuality"]) || "''"},
+    format: '${optionImage["imageFormat"] || ''}',
+    fit: '${optionImage["imageFit"] || ''}'
+  };
+
   /* CONFIGURATION ENDS HERE */
-  
+
   const PAGE_TO_SLUG = {};
   const slugs = [];
   const pages = [];
@@ -66,6 +82,16 @@ ${slugs
   addEventListener('fetch', event => {
     event.respondWith(fetchAndApply(event.request));
   });
+
+  function rewriteImageOptions() {
+    let options = {cf:{}};
+    if (IMAGE_OPTIMIZATION === 'polish') {
+      options.cf.polish = 'lossy';
+    } else if (IMAGE_OPTIMIZATION === 'resize') {
+      options.cf.image = IMAGE_RESIZE_OPTIONS;
+    }
+    return options;
+  }
 
   function generateSitemap() {
     let sitemap = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
@@ -135,6 +161,9 @@ ${slugs
       });
       response = new Response(response.body, response);
       response.headers.set('Access-Control-Allow-Origin', '*');
+      return response;
+    } else if (url.pathname.startsWith('/image') && IMAGE_OPTIMIZATION !== 'none') {
+      const response = await fetch(url, rewriteImageOptions());
       return response;
     } else if (slugs.indexOf(url.pathname.slice(1)) > -1) {
       const pageId = SLUG_TO_PAGE[url.pathname.slice(1)];
