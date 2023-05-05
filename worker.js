@@ -26,6 +26,21 @@ const GOOGLE_FONT = "Rubik";
 /* Step 5: enter any custom scripts you'd like */
 const CUSTOM_SCRIPT = ``;
 
+/*
+ * Step 6: enter your preference of image optimization
+ * You can choose from none or resize
+ * Polish cannnot be chosen at the moment
+ */
+const IMAGE_OPTIMIZATION = "";
+//If you choose 'resize' above, please configure the details
+const IMAGE_RESIZE_OPTIONS = {
+  width: '',
+  height: '',
+  quality: '',
+  format: '',
+  fit: ''
+};
+
 /* CONFIGURATION ENDS HERE */
 
 const PAGE_TO_SLUG = {};
@@ -41,6 +56,16 @@ Object.keys(SLUG_TO_PAGE).forEach(slug => {
 addEventListener("fetch", event => {
   event.respondWith(fetchAndApply(event.request));
 });
+
+function rewriteImageOptions() {
+  let options = {cf:{}};
+  if (IMAGE_OPTIMIZATION === 'polish') {
+    options.cf.polish = 'lossy';
+  } else if (IMAGE_OPTIMIZATION === 'resize') {
+    options.cf.image = IMAGE_RESIZE_OPTIONS;
+  }
+  return options;
+}
 
 function generateSitemap() {
   let sitemap = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
@@ -119,6 +144,9 @@ async function fetchAndApply(request) {
     response = new Response(response.body, response);
     response.headers.set("Access-Control-Allow-Origin", "*");
     return response;
+  } else if (url.pathname.startsWith('/image') && IMAGE_OPTIMIZATION !== 'none') {
+    const response = await fetch(url, rewriteImageOptions());
+    return response;
   } else if (slugs.indexOf(url.pathname.slice(1)) > -1) {
     const pageId = SLUG_TO_PAGE[url.pathname.slice(1)];
     return Response.redirect("https://" + MY_DOMAIN + "/" + pageId, 301);
@@ -192,7 +220,6 @@ class HeadRewriter {
       div.notion-topbar > div > div:nth-child(4) { display: none !important; }
       div.notion-topbar > div > div:nth-child(5) { display: none !important; }
       div.notion-topbar > div > div:nth-child(6) { display: none !important; }
-      div.notion-topbar > div > div:nth-child(7) { display: none !important; }
       div.notion-topbar-mobile > div:nth-child(3) { display: none !important; }
       div.notion-topbar-mobile > div:nth-child(4) { display: none !important; }
       div.notion-topbar > div > div:nth-child(1n).toggle-mode { display: block !important; }
