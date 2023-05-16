@@ -138,7 +138,7 @@ ${slugs
       return response;
     } else if (slugs.indexOf(url.pathname.slice(1)) > -1) {
       const pageId = SLUG_TO_PAGE[url.pathname.slice(1)];
-      return Response.redirect('https://' + MY_DOMAIN + '/' + pageId, 301);
+      return Response.redirect('https://' + MY_DOMAIN + '/' + pageId, 302);
     } else {
       response = await fetch(url.toString(), {
         body: request.body,
