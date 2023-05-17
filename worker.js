@@ -38,7 +38,8 @@ const IMAGE_RESIZE_OPTIONS = {
   height: '',
   quality: '',
   format: '',
-  fit: ''
+  fit: '',
+  blur: ''
 };
 
 /* CONFIGURATION ENDS HERE */
@@ -171,6 +172,11 @@ async function fetchAndApply(request) {
 
 class MetaRewriter {
   element(element) {
+    if (MY_DOMAIN !== '') {
+      if (element.getAttribute('property') === 'og:site_name') {
+        element.setAttribute('content', MY_DOMAIN);
+      }
+    }
     if (PAGE_TITLE !== "") {
       if (
         element.getAttribute("property") === "og:title" ||

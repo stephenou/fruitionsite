@@ -64,7 +64,8 @@ ${slugs
     height: ${Math.trunc(optionImage["imageHeight"]) || "''"},
     quality: ${Math.trunc(optionImage["imageQuality"]) || "''"},
     format: '${optionImage["imageFormat"] || ''}',
-    fit: '${optionImage["imageFit"] || ''}'
+    fit: '${optionImage["imageFit"] || ''}',
+    blur: ${optionImage["imageBlur"] || 0}
   };
 
   /* CONFIGURATION ENDS HERE */
@@ -184,6 +185,11 @@ ${slugs
   
   class MetaRewriter {
     element(element) {
+      if (MY_DOMAIN !== '') {
+        if (element.getAttribute('property') === 'og:site_name') {
+          element.setAttribute('content', MY_DOMAIN);
+        }
+      }
       if (PAGE_TITLE !== '') {
         if (element.getAttribute('property') === 'og:title'
           || element.getAttribute('name') === 'twitter:title') {
