@@ -97,6 +97,9 @@ export default function App() {
     } else if (target.name === 'imageQuality') {
       formValue > 100 && (formValue = 100)
       formValue < 0 && (formValue = 1)
+    } else if (target.name === 'imageBlur') {
+      formValue > 250 && (formValue = 250)
+      formValue < 0 && (formValue = 0)
     }
     optionImage[target.name] = formValue
     setOptionImage({ ...optionImage })
@@ -252,7 +255,7 @@ export default function App() {
       </Collapse>
 
       <Stack mt={4} mb={6}>
-        <Typography variant="h5" component="h2">
+        <Typography variant="h6" component="h2">
           Image Optimization
         </Typography>
         <RadioGroup
@@ -337,6 +340,17 @@ export default function App() {
                 <MenuItem value="pad">pad</MenuItem>
               </Select>
             </FormControl>
+            <TextField
+              type="number"
+              inputProps={{ min: "1", max: "250", step: "1" }}
+              label="Blur"
+              name="imageBlur"
+              placeholder="50"
+              onChange={e => handleImageOption(e.target)}
+              value={Number(optionImage["imageBlur"]).toString() || ''}
+              variant="filled"
+              sx={{ m: 1, width: '20ch' }}
+            />
           </Box>
           <Alert severity="warning">
             To activate this option, please turn on `Image Resizing` from the dashboard. <a href="https://developers.cloudflare.com/images/image-resizing/enable-image-resizing/" target="_blank">More details</a>
