@@ -34,6 +34,7 @@ export default function App() {
   const [pageDescription, setPageDescription] = useState("");
   const [googleFont, setGoogleFont] = useState("");
   const [customScript, setCustomScript] = useState("");
+  const [customCss, setCustomCss] = useState("");
   const [optional, setOptional] = useState(false);
   const [optionImage, setOptionImage] = useState({});
   const [optionalImageResize, setOptionalImageResize] = useState(false);
@@ -60,6 +61,10 @@ export default function App() {
   };
   const handleCustomScript = e => {
     setCustomScript(e.target.value);
+    setCopied(false);
+  };
+  const handleCustomCss = e => {
+    setCustomCss(e.target.value);
     setCopied(false);
   };
   const addSlug = () => {
@@ -124,6 +129,7 @@ export default function App() {
         pageDescription,
         googleFont,
         customScript,
+        customCss,
         optionImage
       })
     : undefined;
@@ -250,6 +256,17 @@ export default function App() {
           onChange={handleCustomScript}
           rows={2}
           value={customScript}
+          variant="outlined"
+        />
+        <TextField
+          fullWidth
+          label="Paste Your Custom CSS"
+          margin="normal"
+          multiline
+          placeholder="e.g. body{background: #fff;}"
+          onChange={handleCustomCss}
+          minRows={4}
+          value={customCss}
           variant="outlined"
         />
       </Collapse>
