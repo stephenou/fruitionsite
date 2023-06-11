@@ -17,6 +17,7 @@ export default function code(data) {
         pageDescription,
         googleFont,
         customScript,
+        customCss,
         optionImage,
     } = data;
     let url = myDomain.replace('https://', '').replace('http://', '');
@@ -49,9 +50,10 @@ ${slugs
   /* Step 4: enter a Google Font name, you can choose from https://fonts.google.com */
   const GOOGLE_FONT = '${googleFont || ''}';
   
-  /* Step 5: enter any custom scripts you'd like */
+  /* Step 5: enter any custom scripts and styles you'd like */
   const CUSTOM_SCRIPT = \`${customScript || ''}\`;
-
+  const CUSTOM_CSS = \`${customCss || ''}\`;
+  
   /*
    * Step 6: enter your preference of image optimization
    * You can choose from none or resize
@@ -340,7 +342,7 @@ ${slugs
         arguments[1] = arguments[1].replace('\${MY_DOMAIN}', 'www.notion.so');
         return open.apply(this, [].slice.call(arguments));
       };
-    </script>\${CUSTOM_SCRIPT}\`, {
+    </script>\${CUSTOM_SCRIPT}<style>\${CUSTOM_CSS}\</style>\`, {
         html: true
       });
     }
