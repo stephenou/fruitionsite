@@ -91,7 +91,7 @@ async function fetchAndApply(request) {
     let response = await fetch(url.toString(), {
       body: request.body,
       headers: request.headers,
-      method: request.method,
+      method: request.method
     });
     response = new Response(response.body, response);
     return response;
