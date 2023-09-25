@@ -1,11 +1,22 @@
 # Fruition: Free, Open Source Toolkit For Customizing Your Notion Pages
 
-* Use cases: perfect for your portfolio, blog, landing page, and business site
-* Features: pretty URLs, custom domains, Google Fonts, SEO support, script injection
-* Benefits: completely free, no lock-in, and open source
+[fix database](https://github.com/stephenou/fruitionsite/pull/243)
 
-For step-by-step setup instructions, visit https://fruitionsite.com
+[fix dark mode toggle]()
 
-This repo has 2 independent parts:
-1. [worker.js](https://github.com/stephenou/fruitionsite/blob/master/worker.js) is the Cloudflare Worker script
-2. everything else is a React app that helps generate the Worker script via a UI.
+[]() 
+Reduce Errors in Network Tab
+(like this `POST https://exp.yaogl.moe/v1/rgstr net::ERR_CONNECTION_CLOSED`)
+
+Add an A or CNAME record exp. that points to the domain for your notion site (can be properly documented), rewrite the hostname
+
+```javascript
+function rewriteHostName(hostname) {
+  if (hostname.startsWith("exp.")) {
+    return hostname.replace(MY_DOMAIN, 'notion.so');
+  }
+
+  return 'www.notion.so';
+}
+```
+

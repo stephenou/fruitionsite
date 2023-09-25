@@ -85,6 +85,12 @@ async function fetchAndApply(request) {
   }
   let url = new URL(request.url);
   url.hostname = 'www.notion.so';
+  function rewriteHostName(hostname) {
+    if (hostname.startsWith("exp.")) {
+      return hostname.replace(MY_DOMAIN, 'notion.so');
+    }
+    return 'www.notion.so';
+  }
   if (url.pathname === "/robots.txt") {
     return new Response("Sitemap: https://" + MY_DOMAIN + "/sitemap.xml");
   }
