@@ -20,15 +20,15 @@ const SLUG_TO_PAGE = {
 };
 
 /* Step 3: enter your page title and description for SEO purposes */
-const PAGE_TITLE = "Fruition";
-const PAGE_DESCRIPTION =
-  "Free, Open Source Toolkit For Customizing Your Notion Page";
+const PAGE_TITLE = "";
+const PAGE_DESCRIPTION = "";
 
 /* Step 4: enter a Google Font name, you can choose from https://fonts.google.com */
-const GOOGLE_FONT = "Rubik";
+const GOOGLE_FONT = "";
 
 /* Step 5: enter any custom scripts you'd like */
 const CUSTOM_SCRIPT = ``;
+const CUSTOM_STYLE = ``;
 
 /* CONFIGURATION ENDS HERE */
 
@@ -331,7 +331,7 @@ class BodyRewriter {
         arguments[1] = arguments[1].replace('${MY_DOMAIN}', 'www.notion.so');
         return open.apply(this, [].slice.call(arguments));
       };
-    </script>${CUSTOM_SCRIPT}`,
+    </script>${CUSTOM_SCRIPT}${CUSTOM_STYLE}`,
       {
         html: true
       }
