@@ -119,7 +119,11 @@ async function fetchAndApply(request) {
     response = new Response(response.body, response);
     response.headers.set("Access-Control-Allow-Origin", "*");
     return response;
-  } else if (slugs.indexOf(url.pathname.slice(1)) > -1) {
+  } else if (url.pathname.endsWith(".js")){
+    response = await fetch(url.toString());
+    response.headers.set("Content-Type", "application/x-javascript");
+    return response;
+  }else if (slugs.indexOf(url.pathname.slice(1)) > -1) {
     const pageId = SLUG_TO_PAGE[url.pathname.slice(1)];
     return Response.redirect("https://" + MY_DOMAIN + "/" + pageId, 301);
   } else if (
