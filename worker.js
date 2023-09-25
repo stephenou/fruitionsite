@@ -1,7 +1,7 @@
 /* CONFIGURATION STARTS HERE */
 
 /* Step 1: enter your domain name like fruitionsite.com */
-const MY_DOMAIN = "fruitionsite.com";
+const MY_DOMAIN = "mcore.yaogl.moe";
 
 /*
  * Step 2: enter your URL slug to page ID mapping
@@ -9,10 +9,14 @@ const MY_DOMAIN = "fruitionsite.com";
  * The value on the right is the Notion page ID
  */
 const SLUG_TO_PAGE = {
-  "": "771ef38657244c27b9389734a9cbff44",
-  thanks: "9d9864f5338b47b0a7f42e0f0e2bbf46",
-  showcase: "92053970e5084019ac096d2df7e7f440",
-  roadmap: "7d4b21bfb4534364972e8bf9f68c2c36"
+  "": "37b7f61f709a4a35821d3089d365b5cb",
+  "mcore": "dbaae48717bc4e9f8d5518caf55c4238",
+  'algorithm': '99640d0d83a346d1bb4b9e78cc165fa4',
+  'anime': '10a3041586cc4c88aaa0c1e6cccc3a03',
+  'games': '9e8b64970cdd453b9531242725ca390a',
+  'anime/april': '634b7d443a464c81884ffda6983ed29a',
+  'warface': 'b8c2ac6660ad4269a49091515d443d86',
+  'specialops': '478397587ee448b1b9b0bd75346f1c6d'
 };
 
 /* Step 3: enter your page title and description for SEO purposes */
