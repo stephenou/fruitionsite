@@ -1,5 +1,3 @@
-# Fruition: Free, Open Source Toolkit For Customizing Your Notion Pages
-
 [fix database](https://github.com/stephenou/fruitionsite/pull/243)
 
 [fix dark mode toggle]()
