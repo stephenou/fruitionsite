@@ -212,6 +212,7 @@ class BodyRewriter {
     element.append(
       `<script>
       window.CONFIG.domainBaseUrl = 'https://${MY_DOMAIN}';
+      localStorage.__console = true;
       const SLUG_TO_PAGE = ${JSON.stringify(this.SLUG_TO_PAGE)};
       const PAGE_TO_SLUG = {};
       const slugs = [];
